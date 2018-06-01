@@ -2,9 +2,13 @@
 #include <locale.h>
 
 
+void Archive(const char* FileNameIn, const char* FileNameOut);
+void DeArchive(const char* FileNameIn, const char* FileNameOut);
+void Compare_File(const char* FileNameIn, const char* FileNameOut);
+
 int main()
 {
-	setlocale(LC_ALL, "Rus");
+    setlocale(LC_ALL, "Rus");
 	const char* ArchFileNameIn = "C:\\1234\\2.pdf";
 	const char* ArchFileNameOut = "C:\\1234\\1234.123";
 	const char* DeArchFileNameIn = ArchFileNameOut;
