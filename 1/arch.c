@@ -6,7 +6,7 @@ void Archive(const char* FileNameIn, const char* FileNameOut);
 void DeArchive(const char* FileNameIn, const char* FileNameOut);
 void Compare_File(const char* FileNameIn, const char* FileNameOut);
 
-int main()
+int main(void)
 {
     setlocale(LC_ALL, "Rus");
 	const char* ArchFileNameIn = "C:\\1234\\2.pdf";
