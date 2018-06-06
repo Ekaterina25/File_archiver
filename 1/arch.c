@@ -53,3 +53,25 @@ void Archive(const char* FileNameIn, const char* FileNameOut)
 	printf("Архивация завершена\nсжато в %f раз(а), процент сжатия: %f\n\n",
 		length_input_file / length_output_file, 100 * (1 - length_output_file / length_input_file));
 }
+
+void Create_Registr(struct Registr *datasymbol)
+{
+	printf("Создание регистра данных\n");
+	quant_reg = 0;
+	int pos_in_DS = 0;
+	for (int i = 0; i < 256; i++)
+		if (quantity_byte[i] != 0)
+		{
+			(datasymbol + pos_in_DS)->symbol = i;
+			(datasymbol + pos_in_DS)->quantity = quantity_byte[i];
+			(datasymbol + pos_in_DS)->code = 0;
+			(datasymbol + pos_in_DS)->length_code = 0;
+			pos_in_DS++;
+			quant_reg++;
+		}
+	float summary_symbol = 0;
+	for (int i = 0; i < quant_reg; i++)
+		summary_symbol += (datasymbol + i)->quantity;
+	for (int i = 0; i < quant_reg; i++)
+		(datasymbol + i)->frequency = (datasymbol + i)->quantity / summary_symbol;
+}
