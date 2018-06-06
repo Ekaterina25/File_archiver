@@ -31,13 +31,13 @@ int main(void)
 }
 void Archive(const char* FileNameIn, const char* FileNameOut)
 {
-	printf("Архивация..\n\n");
+	printf("РђСЂС…РёРІР°С†РёСЏ...\n\n");
 	output = fopen(FileNameOut, "wb");
 	if (output == NULL) printf("error");
 	DataRead(FileNameIn);
 	if (length_registr == 0)
 	{
-		printf("Файл пуст или не существует!\n");
+		printf("Р¤Р°Р№Р» РїСѓСЃС‚РѕР№ РёР»Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!\n");
 		return;
 	}
 struct Registr *DataSymbol;
@@ -47,7 +47,7 @@ struct Registr *DataSymbol;
 
 void DataRead(const char* FileNameIn)
 {
-	printf("Чтение данных..\n");
+	printf("Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С…...\n");
 	input = fopen(FileNameIn, "rb");
 	printf("%s\n", FileNameIn);
 	if (input == NULL) return;
