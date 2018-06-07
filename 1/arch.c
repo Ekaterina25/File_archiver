@@ -1,18 +1,29 @@
 #include <stdio.h>
 #include <locale.h>
+FILE *input;
+FILE *output;
 
-
+///archive
+struct Registr
+{
+	char symbol;
+	int quantity;
+	float frequency;
+	unsigned long long code;//8 byte
+	unsigned char length_code;
+};
+int quant_reg = 0;
 void Archive(const char* FileNameIn, const char* FileNameOut);
 void DataRead(const char* FileNameIn);
 void Create_Registr(struct Registr *datasymbol);
 
-
-//dearchive
-void DeArchive(const char* FileNameIn, const char* FileNameOut);
-
-
-
-void Compare_File(const char* FileNameIn, const char* FileNameOut);
+///archive
+long quantity_byte[256] = { 0 };
+int length_registr = 0;
+unsigned char ByteToFile = 0;
+char IndexBTF = 7;
+float length_input_file = 1;
+float length_output_file = 1;
 
 int main(void)
 {
