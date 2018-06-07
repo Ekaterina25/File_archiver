@@ -109,3 +109,26 @@ void DataSort(struct Registr *datasymbol)
 	}
 	printf("OK\n\n");
 }
+
+
+void CreateCode(struct Registr *datasymbol, int range_start, int range_stop)
+{
+	if (range_stop - range_start == quant_reg) printf("Создание кодов зашифровки..\n");
+	double summary_frequency = 0;
+	for (int i = range_start; i < range_stop; i++)
+		summary_frequency += (datasymbol + i)->frequency;
+	float half = summary_frequency / 2;
+	int index = range_start;
+	summary_frequency = (datasymbol + index)->frequency;
+	while (summary_frequency <= half)
+	{
+		index++;
+		summary_frequency += (datasymbol + index)->frequency;
+	}
+	if (range_start == index) index++;
+	WriteCode(datasymbol, 0, range_start, index);
+	if (range_start + 1 != index) CreateCode(datasymbol, range_start, index);
+	WriteCode(datasymbol, 1, index, range_stop);
+	if ((index + 1 != range_stop) && (index != range_stop)) CreateCode(datasymbol, index, range_stop);
+	if (range_stop - range_start == quant_reg) printf("OK\n\n");
+}
