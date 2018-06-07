@@ -2,14 +2,16 @@
 #include <locale.h>
 
 FILE *input;
-FILE *input2;
 FILE *output;
 
+void Archive(const char* FileNameIn, const char* FileNameOut);
+void DataRead(const char* FileNameIn);
 void Create_Registr(struct Registr *datasymbol);
 void DataSort(struct Registr *datasymbol);
 void CreateCode(struct Registr *datasymbol, int range_start, int range_stop);
 void CreateLibrary(struct Registr *datasymbol);
 void Encoding(struct Registr *datasymbol, const char* FileNameIn);
+
 ///archive
 struct Registr
 {
@@ -21,21 +23,10 @@ struct Registr
 };
 int quant_reg = 0;
 
-
-///dearchive
-struct Registr_dea
-{
-	char symbol;
-	unsigned char length_code;
-	unsigned long long code;//8 byte
-};
-char quant_reg_dea = 0;
-
 void Archive(const char* FileNameIn, const char* FileNameOut)
 {
 	printf("Архивация..\n\n");
 	fopen_s(output, FileNameOut, "wb");
-	
 	if (output == NULL) printf("error");
 	DataRead(FileNameIn);
 	if (length_registr == 0)
@@ -52,6 +43,26 @@ void Archive(const char* FileNameIn, const char* FileNameOut)
 	Encoding(DataSymbol, FileNameIn);
 	printf("Архивация завершена\nсжато в %f раз(а), процент сжатия: %f\n\n",
 		length_input_file / length_output_file, 100 * (1 - length_output_file / length_input_file));
+}
+
+void DataRead(const char* FileNameIn)
+{
+	printf("Чтение данных..\n");
+	input = fopen(FileNameIn, "rb");
+	printf("%s\n", FileNameIn);
+	if (input == NULL) return;
+	unsigned char byte_input = 0;
+	fscanf_s(input, "%c", &byte_input);
+	while (!feof(input))
+	{
+
+		if (quantity_byte[byte_input] == 0) length_registr++;
+		quantity_byte[byte_input]++;
+		fscanf_s(input, "%c", &byte_input);
+	}
+	length_input_file = ftell(input);
+	fclose(input);
+	printf("OK\n\n");
 }
 
 void Create_Registr(struct Registr *datasymbol)
