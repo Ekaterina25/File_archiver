@@ -4,14 +4,6 @@
 FILE *input;
 FILE *output;
 
-void Archive(const char* FileNameIn, const char* FileNameOut);
-void DataRead(const char* FileNameIn);
-void Create_Registr(struct Registr *datasymbol);
-void DataSort(struct Registr *datasymbol);
-void CreateCode(struct Registr *datasymbol, int range_start, int range_stop);
-void CreateLibrary(struct Registr *datasymbol);
-void Encoding(struct Registr *datasymbol, const char* FileNameIn);
-
 ///archive
 struct Registr
 {
@@ -22,6 +14,15 @@ struct Registr
 	unsigned char length_code;
 };
 int quant_reg = 0;
+
+void Archive(const char* FileNameIn, const char* FileNameOut);
+void DataRead(const char* FileNameIn);
+void Create_Registr(struct Registr *datasymbol);
+void DataSort(struct Registr *datasymbol);
+void CreateCode(struct Registr *datasymbol, int range_start, int range_stop);
+void CreateLibrary(struct Registr *datasymbol);
+void Encoding(struct Registr *datasymbol, const char* FileNameIn);
+
 
 void Archive(const char* FileNameIn, const char* FileNameOut)
 {
@@ -85,4 +86,26 @@ void Create_Registr(struct Registr *datasymbol)
 		summary_symbol += (datasymbol + i)->quantity;
 	for (int i = 0; i < quant_reg; i++)
 		(datasymbol + i)->frequency = (datasymbol + i)->quantity / summary_symbol;
+}
+
+void DataSort(struct Registr *datasymbol)
+{
+	char transp = 0;
+	struct Registr dop;
+	for (int j = 0; j < quant_reg - 1; j++)
+	{
+		for (int i = 0; i < quant_reg - 1 - j; i++)
+		{
+			if ((datasymbol + i)->quantity < (datasymbol + i + 1)->quantity)
+			{
+				dop = *(datasymbol + i);
+				*(datasymbol + i) = *(datasymbol + i + 1);
+				*(datasymbol + i + 1) = dop;
+				transp = 1;
+			}
+		}
+		if (!transp) break;
+		transp = 0;
+	}
+	printf("OK\n\n");
 }
