@@ -16,6 +16,8 @@ int quant_reg = 0;
 void Archive(const char* FileNameIn, const char* FileNameOut);
 void DataRead(const char* FileNameIn);
 void Create_Registr(struct Registr *datasymbol);
+void DataSort(struct Registr *datasymbol);
+void CreateCode(struct Registr *datasymbol, int range_start, int range_stop);
 
 ///archive
 long quantity_byte[256] = { 0 };
@@ -30,12 +32,7 @@ int main(void)
     setlocale(LC_ALL, "Rus");
 	const char* ArchFileNameIn = "C:\\1234\\2.pdf";
 	const char* ArchFileNameOut = "C:\\1234\\1234.123";
-	const char* DeArchFileNameIn = ArchFileNameOut;
-	const char* DeArchFileNameOut = "C:\\1234\\1234.pdf";
-
 	Archive(ArchFileNameIn, ArchFileNameOut);
-	DeArchive(DeArchFileNameIn, DeArchFileNameOut);
-	Compare_File(ArchFileNameIn, DeArchFileNameOut);
 
 	system("pause");
 	return 0;
@@ -54,6 +51,8 @@ void Archive(const char* FileNameIn, const char* FileNameOut)
 struct Registr *DataSymbol;
 	DataSymbol = (int*)malloc(length_registr * sizeof(struct Registr));
 	Create_Registr(DataSymbol);
+	DataSort(DataSymbol);
+	CreateCode(DataSymbol, 0, quant_reg);
 }
 
 void DataRead(const char* FileNameIn)
@@ -73,5 +72,48 @@ void DataRead(const char* FileNameIn)
 	}
 	length_input_file = ftell(input);
 	fclose(input);
+	printf("OK\n\n");
+}
+void Create_Registr(struct Registr *datasymbol)
+{
+	printf("Создание регистра данных\n");
+	quant_reg = 0;
+	int pos_in_DS = 0;
+	for (int i = 0; i < 256; i++)
+		if (quantity_byte[i] != 0)
+		{
+			(datasymbol + pos_in_DS)->symbol = i;
+			(datasymbol + pos_in_DS)->quantity = quantity_byte[i];
+			(datasymbol + pos_in_DS)->code = 0;
+			(datasymbol + pos_in_DS)->length_code = 0;
+			pos_in_DS++;
+			quant_reg++;
+		}
+	float summary_symbol = 0;
+	for (int i = 0; i < quant_reg; i++)
+		summary_symbol += (datasymbol + i)->quantity;
+	for (int i = 0; i < quant_reg; i++)
+		(datasymbol + i)->frequency = (datasymbol + i)->quantity / summary_symbol;
+}
+
+void DataSort(struct Registr *datasymbol)
+{
+	char transp = 0;
+	struct Registr dop;
+	for (int j = 0; j < quant_reg - 1; j++)
+	{
+		for (int i = 0; i < quant_reg - 1 - j; i++)
+		{
+			if ((datasymbol + i)->quantity < (datasymbol + i + 1)->quantity)
+			{
+				dop = *(datasymbol + i);
+				*(datasymbol + i) = *(datasymbol + i + 1);
+				*(datasymbol + i + 1) = dop;
+				transp = 1;
+			}
+		}
+		if (!transp) break;
+		transp = 0;
+	}
 	printf("OK\n\n");
 }
