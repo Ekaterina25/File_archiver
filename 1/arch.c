@@ -18,6 +18,8 @@ void DataRead(const char* FileNameIn);
 void Create_Registr(struct Registr *datasymbol);
 void DataSort(struct Registr *datasymbol);
 void CreateCode(struct Registr *datasymbol, int range_start, int range_stop);
+void WriteCode(struct Registr *datasymbol, char code, int range_start, int range_stop);
+
 
 ///archive
 long quantity_byte[256] = { 0 };
@@ -137,4 +139,13 @@ void CreateCode(struct Registr *datasymbol, int range_start, int range_stop)
 	WriteCode(datasymbol, 1, index, range_stop);
 	if ((index + 1 != range_stop) && (index != range_stop)) CreateCode(datasymbol, index, range_stop);
 	if (range_stop - range_start == quant_reg) printf("OK\n\n");
+}
+
+void WriteCode(struct Registr *datasymbol, char code, int range_start, int range_stop)
+{
+	for (int i = range_start; i < range_stop; i++)
+	{
+		(datasymbol + i)->code = ((datasymbol + i)->code << 1) + code;
+		(datasymbol + i)->length_code++;
+	}
 }
