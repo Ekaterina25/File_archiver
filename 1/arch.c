@@ -100,7 +100,6 @@ void Create_Registr(struct Registr *datasymbol)
 
 void DataSort(struct Registr *datasymbol)
 {
-	char transp = 0;
 	struct Registr dop;
 	for (int j = 0; j < quant_reg - 1; j++)
 	{
@@ -111,11 +110,9 @@ void DataSort(struct Registr *datasymbol)
 				dop = *(datasymbol + i);
 				*(datasymbol + i) = *(datasymbol + i + 1);
 				*(datasymbol + i + 1) = dop;
-				transp = 1;
 			}
 		}
-		if (!transp) break;
-		transp = 0;
+	
 	}
 	printf("OK\n\n");
 }
