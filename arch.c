@@ -39,10 +39,10 @@ float length_output_file = 1;
 
 int main()
 {
-	const char* ArchFileNameIn = "2.txt";
+	const char* ArchFileNameIn = "2.pdf";
 	const char* ArchFileNameOut = "1.txe";
     Archive(ArchFileNameIn, ArchFileNameOut);
-
+	system("pause");
 	return 0;
 }
 
