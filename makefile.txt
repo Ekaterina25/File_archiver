@@ -1,0 +1,7 @@
+CC=gcc
+CFLAGS=-w
+
+all: arch
+
+arch: arch.c
+	$(CC) $(CFLAGS) arch.c -o arch

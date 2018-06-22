@@ -39,8 +39,8 @@ float length_output_file = 1;
 
 int main()
 {
-	const char* ArchFileNameIn = "2.txt";
-	const char* ArchFileNameOut = "1.txe";
+	const char* ArchFileNameIn = "text.txt";
+	const char* ArchFileNameOut = "arch_text.txe";
     Archive(ArchFileNameIn, ArchFileNameOut);
 	system("pause");
 	return 0;
